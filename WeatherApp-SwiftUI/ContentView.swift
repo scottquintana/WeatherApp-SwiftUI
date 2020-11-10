@@ -17,7 +17,7 @@ struct ContentView: View {
             BackgroundView(isNight: $isNight)
             
             VStack {
-                CityTextView(cityName: "Cupertino")
+                CityTextView(cityName: "Nashville")
                 
                 MainWeatherStatusView(imageName: isNight ? "moon.stars.fill" : "cloud.sun.fill", temperature: 76)
                 
@@ -101,6 +101,8 @@ struct CityTextView: View {
 
 struct MainWeatherStatusView: View {
     
+    @ObservedObject private var currentWeatherVM = CurrentWeatherVM()
+    
     var imageName: String
     var temperature: Int
     
@@ -112,7 +114,7 @@ struct MainWeatherStatusView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 180, height: 180, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             
-            Text("\(temperature)°")
+            Text(currentWeatherVM.currentTemp + "°")
                 .font(.system(size: 70, weight: .medium, design: .default))
                 .foregroundColor(.white)
             
