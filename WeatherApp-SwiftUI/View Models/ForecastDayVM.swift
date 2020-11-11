@@ -14,8 +14,8 @@ struct ForecastDayVM {
         return DateHelper.convertToShortDay(dailyForecast.dt)
     }
     
-    var conditionId: Int {
-        return dailyForecast.weather[0].id
+    var conditionId: String {
+        return WeatherConditionHelper.getImageFromConditionId(conditionId: dailyForecast.weather[0].id) 
     }
     
     var dailyHighString: String {

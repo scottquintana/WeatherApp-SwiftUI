@@ -5,28 +5,37 @@
 //  Created by Scott Quintana on 11/9/20.
 //
 
-import Foundation
+import SwiftUI
 import Combine
 
 class CurrentWeatherVM: ObservableObject {
     
-    private var cancellable: AnyCancellable?
+    private var cancellableNetwork: AnyCancellable?
+    private var cancellableLocation: AnyCancellable?
     
     @Published private var weather = WeatherModel.placeholder()
+    @ObservedObject private var locationManager = LocationManager()
     
     var currentTempString: String {
         return self.weather.temperatureString
     }
     
-    
-    init() {
-        getCurrentWeather(cityName: "Nashville")
+    var cityName: String {
+        return self.weather.cityName
     }
     
-    func getCurrentWeather(cityName: String) {
-        self.cancellable = NetworkManager.shared.getWeatherByCity(city: cityName)
-            .sink(receiveCompletion: { _ in }, receiveValue: { weather in
-                self.weather = WeatherModel(conditionID: weather.weather[0].id, cityName: cityName, temperature: weather.main.temp)
+    
+    init() {
+        cancellableLocation = locationManager.objectWillChange
+            .sink { _ in
+                self.getCurrentWeather()
+            }
+      
+    }
+    
+    func getCurrentWeather() {
+        self.cancellableNetwork = NetworkManager.shared.getWeatherByCity(lat: locationManager.userLatitude, long: locationManager.userLongitude)            .sink(receiveCompletion: { _ in }, receiveValue: { weather in
+            self.weather = WeatherModel(conditionID: weather.weather[0].id, cityName: self.locationManager.locationName, temperature: weather.main.temp)
             })
     }
     

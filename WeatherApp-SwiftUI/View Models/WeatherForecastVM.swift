@@ -5,29 +5,31 @@
 //  Created by Scott Quintana on 11/10/20.
 //
 
-import Foundation
+import SwiftUI
 import Combine
 
 
 class WeatherForecastVM: ObservableObject {
     
     @Published var forecast = [DailyForecastList]()
-    private var locationViewModel = LocationViewModel()
-    private var cancellable: AnyCancellable?
+    @ObservedObject var locationManager = LocationManager()
     
+    private var cancellableNetwork: AnyCancellable?
+    private var canncellableLocation: AnyCancellable?
    
         
     init() {
-        getCurrentForecast()
-        print("initialized")
+        canncellableLocation = locationManager.objectWillChange
+            .sink { _ in
+                self.getCurrentForecast()
+            }
     }
+
     
     func getCurrentForecast() {
-        print(locationViewModel.userLatitude)
-        self.cancellable = NetworkManager.shared.getForecastByLocation(lat: locationViewModel.userLatitude, long: locationViewModel.userLongitude)
-            .sink(receiveCompletion: { x in print(x) }, receiveValue: { forecast in
-                print("test")
-                self.forecast = forecast.daily
+        self.cancellableNetwork = NetworkManager.shared.getForecastByLocation(lat: locationManager.userLatitude, long: locationManager.userLongitude)
+            .sink(receiveCompletion: { _ in }, receiveValue: { forecast in
+              self.forecast = forecast.daily
             })
         }
 }

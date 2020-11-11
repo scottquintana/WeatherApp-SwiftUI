@@ -18,8 +18,6 @@ struct WeatherView: View {
             BackgroundView(isNight: $isNight)
             
             VStack {
-                CityTextView(cityName: "Nashville")
-                
                 MainWeatherStatusView(imageName: isNight ? "moon.stars.fill" : "cloud.sun.fill", temperature: 76)
                 
                 HStack(spacing: 22) {
@@ -41,38 +39,10 @@ struct WeatherView: View {
     }
 }
 
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         WeatherView()
-    }
-}
-
-struct WeatherForecastView: View {
-
-    private var forecastDayVM: ForecastDayVM
-    
-    init(dailyWeather: DailyForecastList) {
-        self.forecastDayVM = ForecastDayVM(dailyForecast: dailyWeather)
-    }
-    
-    var body: some View {
-        VStack {
-            Text(forecastDayVM.dayOfWeek)
-                .font(.system(size: 18, weight: .medium, design: .default))
-                .foregroundColor(.white)
-            Image(systemName: "sun.max")
-                .renderingMode(.original)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
-            Text(forecastDayVM.dailyHighString + "°")
-                .font(.system(size: 24, weight: .medium, design: .default))
-                .foregroundColor(.white)
-            Text(forecastDayVM.dailyLowString + "°")
-                .font(.system(size: 24, weight: .medium, design: .default))
-                .foregroundColor(.white)
-            
-        }
     }
 }
 
@@ -111,6 +81,8 @@ struct MainWeatherStatusView: View {
     var temperature: Int
     
     var body: some View {
+        CityTextView(cityName: currentWeatherVM.cityName)
+        
         VStack(spacing: 8) {
             Image(systemName: imageName)
                 .renderingMode(.original)
@@ -126,3 +98,34 @@ struct MainWeatherStatusView: View {
         .padding(.bottom, 40)
     }
 }
+
+
+struct WeatherForecastView: View {
+
+    private var forecastDayVM: ForecastDayVM
+    
+    init(dailyWeather: DailyForecastList) {
+        self.forecastDayVM = ForecastDayVM(dailyForecast: dailyWeather)
+    }
+    
+    var body: some View {
+        VStack {
+            Text(forecastDayVM.dayOfWeek)
+                .font(.system(size: 18, weight: .medium, design: .default))
+                .foregroundColor(.white)
+            Image(systemName: forecastDayVM.conditionId)
+                .renderingMode(.original)
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+            Text(forecastDayVM.dailyHighString + "°")
+                .font(.system(size: 24, weight: .medium, design: .default))
+                .foregroundColor(.white)
+            Text(forecastDayVM.dailyLowString + "°")
+                .font(.system(size: 24, weight: .medium, design: .default))
+                .foregroundColor(.white)
+            
+        }
+    }
+}
+

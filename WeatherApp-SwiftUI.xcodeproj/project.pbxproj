@@ -23,6 +23,7 @@
 		5E80FD41255B651700E4A076 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E80FD40255B651700E4A076 /* DateHelper.swift */; };
 		5E80FD44255BA5D000E4A076 /* ForecastData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E80FD43255BA5D000E4A076 /* ForecastData.swift */; };
 		5E80FD47255BB43000E4A076 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E80FD46255BB43000E4A076 /* LocationManager.swift */; };
+		5EBDAD16255C902A001D77D3 /* WeatherConditionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBDAD15255C902A001D77D3 /* WeatherConditionHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		5E80FD40255B651700E4A076 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		5E80FD43255BA5D000E4A076 /* ForecastData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastData.swift; sourceTree = "<group>"; };
 		5E80FD46255BB43000E4A076 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		5EBDAD15255C902A001D77D3 /* WeatherConditionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherConditionHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				5E80FD40255B651700E4A076 /* DateHelper.swift */,
+				5EBDAD15255C902A001D77D3 /* WeatherConditionHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -211,6 +214,7 @@
 				5E80FD44255BA5D000E4A076 /* ForecastData.swift in Sources */,
 				5E80FD3D255B428A00E4A076 /* ForecastDayVM.swift in Sources */,
 				5E77B1E4255A57CB00716478 /* NetworkManager.swift in Sources */,
+				5EBDAD16255C902A001D77D3 /* WeatherConditionHelper.swift in Sources */,
 				5E77B1802559B18D00716478 /* WeatherView.swift in Sources */,
 				5E77B1E1255A55D400716478 /* WeatherData.swift in Sources */,
 				5E77B17E2559B18D00716478 /* WeatherApp_SwiftUIApp.swift in Sources */,
