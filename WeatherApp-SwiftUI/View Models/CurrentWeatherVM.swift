@@ -14,7 +14,7 @@ class CurrentWeatherVM: ObservableObject {
     
     @Published private var weather = WeatherModel.placeholder()
     
-    var currentTemp: String {
+    var currentTempString: String {
         return self.weather.temperatureString
     }
     

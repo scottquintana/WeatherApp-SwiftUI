@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct WeatherView: View {
     
     @State private var isNight = false
+    @ObservedObject private var weatherForecastVM = WeatherForecastVM()
     
     var body: some View {
         ZStack {
@@ -22,13 +23,11 @@ struct ContentView: View {
                 MainWeatherStatusView(imageName: isNight ? "moon.stars.fill" : "cloud.sun.fill", temperature: 76)
                 
                 HStack(spacing: 22) {
-                    WeatherDayView(dayOfWeek: "TUE", imageName: "cloud.sun.fill", temperature: 76)
-                    WeatherDayView(dayOfWeek: "WED", imageName: "sun.max.fill", temperature: 86)
-                    WeatherDayView(dayOfWeek: "THU", imageName: "wind", temperature: 68)
-                    WeatherDayView(dayOfWeek: "FRI", imageName: "cloud.drizzle.fill", temperature: 61)
-                    WeatherDayView(dayOfWeek: "SAT", imageName: "cloud.sun.rain.fill", temperature: 55)
+                    ForEach(self.weatherForecastVM.forecast.prefix(5), id: \.dt) { forecastVM in
+                        WeatherForecastView(dailyWeather: forecastVM)
                     }
-                
+                }
+                .padding()
                 Spacer()
                 
                 Button {
@@ -44,27 +43,32 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        WeatherView()
     }
 }
 
-struct WeatherDayView: View {
+struct WeatherForecastView: View {
+
+    private var forecastDayVM: ForecastDayVM
     
-    var dayOfWeek: String
-    var imageName: String
-    var temperature: Int
+    init(dailyWeather: DailyForecastList) {
+        self.forecastDayVM = ForecastDayVM(dailyForecast: dailyWeather)
+    }
     
     var body: some View {
         VStack {
-            Text(dayOfWeek)
+            Text(forecastDayVM.dayOfWeek)
                 .font(.system(size: 18, weight: .medium, design: .default))
                 .foregroundColor(.white)
-            Image(systemName: imageName)
+            Image(systemName: "sun.max")
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 40, height: 40)
-            Text("\(temperature)°")
+            Text(forecastDayVM.dailyHighString + "°")
+                .font(.system(size: 24, weight: .medium, design: .default))
+                .foregroundColor(.white)
+            Text(forecastDayVM.dailyLowString + "°")
                 .font(.system(size: 24, weight: .medium, design: .default))
                 .foregroundColor(.white)
             
@@ -114,7 +118,7 @@ struct MainWeatherStatusView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 180, height: 180, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
             
-            Text(currentWeatherVM.currentTemp + "°")
+            Text(currentWeatherVM.currentTempString + "°")
                 .font(.system(size: 70, weight: .medium, design: .default))
                 .foregroundColor(.white)
             
