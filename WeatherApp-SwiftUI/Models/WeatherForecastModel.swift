@@ -14,6 +14,8 @@ struct WeatherForecastModel {
     let tempLow: Double
 }
 
+//MARK: - Placeholder Extension
+
 extension WeatherForecastModel {
     static func placeholder() -> WeatherForecastModel {
         return WeatherForecastModel(conditionID: 0, date: Date(), tempHigh: 0, tempLow: 0)

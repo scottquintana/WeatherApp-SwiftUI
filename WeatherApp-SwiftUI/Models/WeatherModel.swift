@@ -11,11 +11,9 @@ struct WeatherModel {
     let conditionID: Int
     let cityName: String
     let temperature: Double
-    
-    var temperatureString: String {
-        return String(format: "%.0f", temperature)
-    }
 }
+
+//MARK: - Placeholder Extension
 
 extension WeatherModel {
     static func placeholder() -> WeatherModel {

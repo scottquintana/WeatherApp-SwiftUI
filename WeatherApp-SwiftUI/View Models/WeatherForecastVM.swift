@@ -16,20 +16,18 @@ class WeatherForecastVM: ObservableObject {
     
     private var cancellableNetwork: AnyCancellable?
     private var canncellableLocation: AnyCancellable?
-   
-        
+    
+    
     init() {
         canncellableLocation = locationManager.objectWillChange
-            .sink { _ in
-                self.getCurrentForecast()
-            }
+            .sink { _ in self.getCurrentForecast() }
     }
-
+    
     
     func getCurrentForecast() {
         self.cancellableNetwork = NetworkManager.shared.getForecastByLocation(lat: locationManager.userLatitude, long: locationManager.userLongitude)
             .sink(receiveCompletion: { _ in }, receiveValue: { forecast in
-              self.forecast = forecast.daily
+                self.forecast = forecast.daily
             })
-        }
+    }
 }

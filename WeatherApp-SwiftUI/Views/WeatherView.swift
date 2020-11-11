@@ -14,11 +14,11 @@ struct WeatherView: View {
     
     var body: some View {
         ZStack {
-           
+            
             BackgroundView(isNight: $isNight)
             
             VStack {
-                MainWeatherStatusView(imageName: isNight ? "moon.stars.fill" : "cloud.sun.fill", temperature: 76)
+                MainWeatherStatusView(isNight: $isNight)
                 
                 HStack(spacing: 22) {
                     ForEach(self.weatherForecastVM.forecast.prefix(5), id: \.dt) { forecastVM in
@@ -26,6 +26,7 @@ struct WeatherView: View {
                     }
                 }
                 .padding()
+                
                 Spacer()
                 
                 Button {
@@ -33,6 +34,7 @@ struct WeatherView: View {
                 } label: {
                     WeatherButton(title: "Change Day Time", textColor: .blue, backgroundColor: .white)
                 }
+                
                 Spacer()
             }
         }
@@ -50,7 +52,7 @@ struct ContentView_Previews: PreviewProvider {
 struct BackgroundView: View {
     
     @Binding var isNight: Bool
-
+    
     var body: some View {
         
         LinearGradient(gradient: Gradient(colors: [isNight ? .black : .blue, isNight ? .gray : Color("lightBlue")]),
@@ -60,31 +62,21 @@ struct BackgroundView: View {
     }
 }
 
-struct CityTextView: View {
-    
-    var cityName: String
-    
-    var body: some View {
-        Text(cityName)
-            .font(.system(size: 32, weight: .medium, design: .default))
-            .foregroundColor(.white)
-            .padding()
-    }
-    
-}
 
 struct MainWeatherStatusView: View {
     
     @ObservedObject private var currentWeatherVM = CurrentWeatherVM()
+    @Binding var isNight: Bool
     
-    var imageName: String
-    var temperature: Int
     
     var body: some View {
-        CityTextView(cityName: currentWeatherVM.cityName)
+        Text(currentWeatherVM.cityName)
+            .font(.system(size: 32, weight: .medium, design: .default))
+            .foregroundColor(.white)
+            .padding()
         
         VStack(spacing: 8) {
-            Image(systemName: imageName)
+            Image(systemName: isNight ? "moon.stars.fill" : currentWeatherVM.conditionId)
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
@@ -101,7 +93,7 @@ struct MainWeatherStatusView: View {
 
 
 struct WeatherForecastView: View {
-
+    
     private var forecastDayVM: ForecastDayVM
     
     init(dailyWeather: DailyForecastList) {

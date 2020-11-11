@@ -16,27 +16,28 @@ class CurrentWeatherVM: ObservableObject {
     @Published private var weather = WeatherModel.placeholder()
     @ObservedObject private var locationManager = LocationManager()
     
-    var currentTempString: String {
-        return self.weather.temperatureString
-    }
-    
     var cityName: String {
         return self.weather.cityName
+    }
+    
+    var conditionId: String {
+        return WeatherConditionHelper.getImageFromConditionId(conditionId: self.weather.conditionID)
+    }
+    
+    var currentTempString: String {
+        return String(format: "%.0f", weather.temperature)
     }
     
     
     init() {
         cancellableLocation = locationManager.objectWillChange
-            .sink { _ in
-                self.getCurrentWeather()
-            }
-      
+            .sink { _ in self.getCurrentWeather() }
     }
+    
     
     func getCurrentWeather() {
         self.cancellableNetwork = NetworkManager.shared.getWeatherByCity(lat: locationManager.userLatitude, long: locationManager.userLongitude)            .sink(receiveCompletion: { _ in }, receiveValue: { weather in
             self.weather = WeatherModel(conditionID: weather.weather[0].id, cityName: self.locationManager.locationName, temperature: weather.main.temp)
-            })
+        })
     }
-    
 }

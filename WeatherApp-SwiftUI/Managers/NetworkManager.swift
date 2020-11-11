@@ -11,7 +11,6 @@ import CoreLocation
 
 struct NetworkManager {
 
-    
     static let shared = NetworkManager()
     
     private var apiKey = "acf3bdefcee3638d485f32e0cb93d5c3"
@@ -21,7 +20,6 @@ struct NetworkManager {
             fatalError("Error locating city")
         }
 
-        
         return URLSession.shared.dataTaskPublisher(for: url)
             .receive(on: RunLoop.main)
             .map(\.data)
@@ -29,6 +27,7 @@ struct NetworkManager {
             .catch { _ in Empty<WeatherData, Error>() }
             .eraseToAnyPublisher()
     }
+    
     
     func getForecastByLocation(lat: CLLocationDegrees, long: CLLocationDegrees) -> AnyPublisher<ForecastData, Error> {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(long)&exclude=minutely,hourly,alerts&appid=\(apiKey)&units=imperial") else {
