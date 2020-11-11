@@ -1,3 +1,3 @@
 # WeatherApp-SwiftUI
 
-Skeleton of a basic weather app, using SwiftUI and Combine.
+Simple weather app, utilizing SwiftUI, CoreLocation, and Combine.
