@@ -152,7 +152,7 @@ struct WeatherForecastView: View {
                 .foregroundColor(.white)
             Text(forecastDayVM.dailyLowString + "°")
                 .font(.system(size: 24, weight: .medium, design: .default))
-                .foregroundColor(.white)
+                .foregroundColor(.gray)
         }
     }
 }
