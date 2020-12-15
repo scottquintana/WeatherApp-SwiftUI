@@ -15,11 +15,11 @@ class WeatherForecastVM: ObservableObject {
     @ObservedObject var locationManager = LocationManager()
     
     private var cancellableNetwork: AnyCancellable?
-    private var canncellableLocation: AnyCancellable?
+    private var cancellableLocation: AnyCancellable?
     
     
     init() {
-        canncellableLocation = locationManager.objectWillChange
+        cancellableLocation = locationManager.objectWillChange
             .sink { _ in self.getCurrentForecast() }
     }
     

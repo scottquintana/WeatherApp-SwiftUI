@@ -18,12 +18,17 @@ struct NetworkManager {
     func getWeatherByCity(lat: CLLocationDegrees, long: CLLocationDegrees) -> AnyPublisher<WeatherData, Error> {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(lat)&lon=\(long)&appid=\(apiKey)&units=imperial") else {
             fatalError("Error locating city")
+            
         }
+        
+        let decodeStrategy = JSONDecoder()
+        decodeStrategy.keyDecodingStrategy = .convertFromSnakeCase
+        decodeStrategy.dateDecodingStrategy = .secondsSince1970
 
         return URLSession.shared.dataTaskPublisher(for: url)
             .receive(on: RunLoop.main)
             .map(\.data)
-            .decode(type: WeatherData.self, decoder: JSONDecoder())
+            .decode(type: WeatherData.self, decoder: decodeStrategy)
             .catch { _ in Empty<WeatherData, Error>() }
             .eraseToAnyPublisher()
     }

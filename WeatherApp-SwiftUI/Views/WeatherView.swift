@@ -9,34 +9,39 @@ import SwiftUI
 
 struct WeatherView: View {
     
-    @State private var isNight = false
-    @ObservedObject private var weatherForecastVM = WeatherForecastVM()
+    @State var isNight = false
+   
+    @StateObject private var weatherForecastVM = WeatherForecastVM()
     
     var body: some View {
+
         ZStack {
             
             BackgroundView(isNight: $isNight)
-            
-            VStack {
-                MainWeatherStatusView(isNight: $isNight)
+            ZStack {
+                Color(.white)
+                    .opacity(0.3)
+                    .cornerRadius(30)
                 
-                HStack(spacing: 22) {
-                    ForEach(self.weatherForecastVM.forecast.prefix(5), id: \.dt) { forecastVM in
-                        WeatherForecastView(dailyWeather: forecastVM)
+                VStack {
+                    MainWeatherStatusView(isNight: $isNight)
+                    
+                    HStack(spacing: 22) {
+                        ForEach(self.weatherForecastVM.forecast.prefix(5), id: \.dt) { forecastVM in
+                            WeatherForecastView(dailyWeather: forecastVM)
+                        }
                     }
+                    .padding()
+                    
+                   
+                    
+                  
+                    
+                    Spacer()
                 }
-                .padding()
-                
-                Spacer()
-                
-                Button {
-                    isNight.toggle()
-                } label: {
-                    WeatherButton(title: "Change Day Time", textColor: .blue, backgroundColor: .white)
-                }
-                
-                Spacer()
             }
+            .padding(.horizontal, 30)
+            
         }
     }
 }
@@ -65,15 +70,15 @@ struct BackgroundView: View {
 
 struct MainWeatherStatusView: View {
     
-    @ObservedObject private var currentWeatherVM = CurrentWeatherVM()
+    @StateObject private var currentWeatherVM = CurrentWeatherVM()
     @Binding var isNight: Bool
-    
     
     var body: some View {
         Text(currentWeatherVM.cityName)
             .font(.system(size: 32, weight: .medium, design: .default))
             .foregroundColor(.white)
             .padding()
+        
         
         VStack(spacing: 8) {
             Image(systemName: isNight ? "moon.stars.fill" : currentWeatherVM.conditionId)
@@ -86,6 +91,8 @@ struct MainWeatherStatusView: View {
                 .font(.system(size: 70, weight: .medium, design: .default))
                 .foregroundColor(.white)
             
+        }.onAppear {
+            isNight = !currentWeatherVM.isDaytime
         }
         .padding(.bottom, 40)
     }
