@@ -18,4 +18,14 @@ class DateHelper {
     static func convertToShortDay(_ date: Date) -> String {
         return shortDay.string(from: date)
     }
+    
+    static var timeDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "h:mm a"
+        return formatter
+    }()
+
+    static func convertToTimeFormat(_ date: Date) -> String {
+        return timeDateFormatter.string(from: date)
+    }
 }

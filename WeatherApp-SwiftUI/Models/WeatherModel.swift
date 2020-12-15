@@ -13,6 +13,7 @@ struct WeatherModel {
     let temperature: Double
     let feelsLike: Double
     let currentDT: Date
+    let humidity: Double
     let sunrise: Date
     let sunset: Date
     let windSpeed: Double
@@ -29,10 +30,12 @@ extension WeatherModel {
                            temperature: 0,
                            feelsLike: 0,
                            currentDT: Date(),
+                           humidity: 0,
                            sunrise: Date(),
                            sunset: Date(),
                            windSpeed: 0,
                            windDeg: 0
+                           
                            
        )
     }

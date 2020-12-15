@@ -33,6 +33,10 @@ class CurrentWeatherVM: ObservableObject {
         return String(format: "%.0f", weather.feelsLike)
     }
     
+    var humidity: String {
+        return "\(weather.humidity)%"
+    }
+    
     var sunriseTime: Date {
         return weather.sunrise
     }
@@ -66,6 +70,7 @@ class CurrentWeatherVM: ObservableObject {
                                                 temperature: weather.main.temp,
                                                 feelsLike: weather.main.feelsLike,
                                                 currentDT: weather.dt,
+                                                humidity: weather.main.humidity,
                                                 sunrise: weather.sys.sunrise,
                                                 sunset: weather.sys.sunset,
                                                 windSpeed: weather.wind.speed,

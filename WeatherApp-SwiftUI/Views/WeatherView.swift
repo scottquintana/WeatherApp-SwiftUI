@@ -10,36 +10,35 @@ import SwiftUI
 struct WeatherView: View {
     
     @State var isNight = false
-   
+    
     @StateObject private var weatherForecastVM = WeatherForecastVM()
     
     var body: some View {
-
+        
         ZStack {
             
             BackgroundView(isNight: $isNight)
-            ZStack {
-                Color(.white)
-                    .opacity(0.3)
-                    .cornerRadius(30)
+            
+            VStack {
+                MainWeatherStatusView(isNight: $isNight)
                 
-                VStack {
-                    MainWeatherStatusView(isNight: $isNight)
-                    
+                
+                ZStack{
+                    HStack {
+                        Spacer()
+                    }
+                    Color(.black)
+                        .opacity(0.4)
+                        .cornerRadius(26)
                     HStack(spacing: 22) {
                         ForEach(self.weatherForecastVM.forecast.prefix(5), id: \.dt) { forecastVM in
                             WeatherForecastView(dailyWeather: forecastVM)
                         }
                     }
-                    .padding()
-                    
-                   
-                    
-                  
-                    
-                    Spacer()
                 }
+                Spacer()
             }
+            
             .padding(.horizontal, 30)
             
         }
@@ -90,6 +89,35 @@ struct MainWeatherStatusView: View {
             Text(currentWeatherVM.currentTempString + "°")
                 .font(.system(size: 70, weight: .medium, design: .default))
                 .foregroundColor(.white)
+            VStack(spacing: 8) {
+                HStack(spacing: 22) {
+                    DetailText("Feels like:")
+                    Spacer()
+                    DetailText(currentWeatherVM.feelsLike + "°")
+                }
+                HStack(spacing: 22) {
+                    DetailText("Wind:")
+                    Spacer()
+                    DetailText(currentWeatherVM.wind)
+                }
+                HStack(spacing: 22) {
+                    DetailText("Humidity:")
+                    Spacer()
+                    DetailText(currentWeatherVM.humidity)
+                }
+                HStack(spacing: 22) {
+                    DetailText("Sunrise:")
+                    Spacer()
+                    DetailText(DateHelper.convertToTimeFormat(currentWeatherVM.sunriseTime))
+                }
+                HStack(spacing: 22) {
+                    DetailText("Sunset:")
+                    Spacer()
+                    DetailText(DateHelper.convertToTimeFormat(currentWeatherVM.sunsetTime))
+                }
+               
+            }
+            .padding(.top, 20)
             
         }.onAppear {
             isNight = !currentWeatherVM.isDaytime
@@ -108,6 +136,8 @@ struct WeatherForecastView: View {
     }
     
     var body: some View {
+        
+        
         VStack {
             Text(forecastDayVM.dayOfWeek)
                 .font(.system(size: 18, weight: .medium, design: .default))
@@ -123,7 +153,6 @@ struct WeatherForecastView: View {
             Text(forecastDayVM.dailyLowString + "°")
                 .font(.system(size: 24, weight: .medium, design: .default))
                 .foregroundColor(.white)
-            
         }
     }
 }

@@ -24,6 +24,7 @@
 		5E80FD47255BB43000E4A076 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E80FD46255BB43000E4A076 /* LocationManager.swift */; };
 		5E89CEE525881F2C008B9260 /* WindHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E89CEE425881F2C008B9260 /* WindHelper.swift */; };
 		5EBDAD16255C902A001D77D3 /* WeatherConditionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EBDAD15255C902A001D77D3 /* WeatherConditionHelper.swift */; };
+		5EF3005A258889E000DC832F /* DetailText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EF30059258889E000DC832F /* DetailText.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		5E80FD46255BB43000E4A076 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		5E89CEE425881F2C008B9260 /* WindHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindHelper.swift; sourceTree = "<group>"; };
 		5EBDAD15255C902A001D77D3 /* WeatherConditionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherConditionHelper.swift; sourceTree = "<group>"; };
+		5EF30059258889E000DC832F /* DetailText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailText.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 			children = (
 				5E77B17F2559B18D00716478 /* WeatherView.swift */,
 				5EBDAD1C255CA1EF001D77D3 /* Buttons */,
+				5EF30059258889E000DC832F /* DetailText.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -228,6 +231,7 @@
 				5E80FD3A255B32C500E4A076 /* WeatherForecastVM.swift in Sources */,
 				5E77B1E8255A5A0700716478 /* CurrentWeatherVM.swift in Sources */,
 				5E80FD44255BA5D000E4A076 /* ForecastData.swift in Sources */,
+				5EF3005A258889E000DC832F /* DetailText.swift in Sources */,
 				5E80FD3D255B428A00E4A076 /* ForecastDayVM.swift in Sources */,
 				5E89CEE525881F2C008B9260 /* WindHelper.swift in Sources */,
 				5E77B1E4255A57CB00716478 /* NetworkManager.swift in Sources */,
