@@ -7,42 +7,62 @@
 
 import WidgetKit
 import SwiftUI
+import Combine
 
 struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date())
+    let widgetViewModel = WidgetViewModel()
+    func placeholder(in context: Context) -> WeatherEntry {
+        WeatherEntry(date: Date(), weather: WidgetWeather(temp: "66"))
     }
 
-    func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date())
+    func getSnapshot(in context: Context, completion: @escaping (WeatherEntry) -> ()) {
+        let entry = WeatherEntry(date: Date(), weather: WidgetWeather(temp: "69"))
         completion(entry)
     }
 
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
+    func getTimeline(in context: Context, completion: @escaping (Timeline<WeatherEntry>) -> ()) {
         let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate)
-            entries.append(entry)
+        guard let refreshTime = Calendar.current.date(byAdding: .minute, value: 15, to: currentDate) else { return }
+        
+        widgetViewModel.getWidgetWeather { weatherData in
+            let currentWeather = WidgetWeather(temp: String(format: "%.0f", weatherData.main.temp))
+            let entry = WeatherEntry(date: currentDate, weather: currentWeather)
+            let timeline = (Timeline(entries: [entry], policy: .after((refreshTime))))
+            completion(timeline)
+            
         }
-        print("hello")
-        let timeline = Timeline(entries: entries, policy: .atEnd)
-        completion(timeline)
     }
 }
 
-struct SimpleEntry: TimelineEntry {
+struct WidgetWeather {
+    let temp: String
+}
+
+final class WidgetViewModel {
+    private var subscriptions = Set<AnyCancellable>()
+    
+    func getWidgetWeather(completion: @escaping (WeatherData) -> Void) {
+        NetworkManager.shared.getWeatherByCity(lat: 0, long: 0)
+            .sink(receiveCompletion: { _ in },
+                  receiveValue: { weather in
+                   completion(weather)
+                  })
+            .store(in: &subscriptions)
+    }
+}
+
+struct WeatherEntry: TimelineEntry {
     let date: Date
+    let weather: WidgetWeather
 }
 
 struct WeatherWidgetEntryView : View {
+    let date: Date
     var entry: Provider.Entry
 
     var body: some View {
         Text(entry.date, style: .time)
+        Text(entry.weather.temp + "°")
     }
 }
 
@@ -52,16 +72,16 @@ struct WeatherWidget: Widget {
 
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
-            WeatherWidgetEntryView(entry: entry)
+            WeatherWidgetEntryView(date: Date(), entry: entry)
         }
         .configurationDisplayName("My Widget")
         .description("This is an example widget.")
     }
 }
 
-struct WeatherWidget_Previews: PreviewProvider {
-    static var previews: some View {
-        WeatherWidgetEntryView(entry: SimpleEntry(date: Date()))
-            .previewContext(WidgetPreviewContext(family: .systemSmall))
-    }
-}
+//struct WeatherWidget_Previews: PreviewProvider {
+//    static var previews: some View {
+//        WeatherWidgetEntryView(entry: WidgetModel(date: Date()))
+//            .previewContext(WidgetPreviewContext(family: .systemSmall))
+//    }
+//}
