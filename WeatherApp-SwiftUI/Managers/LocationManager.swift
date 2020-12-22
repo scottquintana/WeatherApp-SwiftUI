@@ -8,6 +8,7 @@
 import Foundation
 import Combine
 import CoreLocation
+import WidgetKit
 
 class LocationManager: NSObject, ObservableObject{
     
@@ -54,6 +55,7 @@ extension LocationManager: CLLocationManagerDelegate {
             }
 
             self.locationName = output
+           
         }
     }
 }

@@ -10,7 +10,8 @@ import Combine
 
 class CurrentWeatherVM: ObservableObject {
     
-    @Published private var weather = WeatherModel.placeholder()
+    @Published private var currentWeather = WeatherModel.placeholder()
+    var currentForecast = [DailyWeather]()
     @ObservedObject private var locationManager = LocationManager()
     
     private var cancellableNetwork: AnyCancellable?
@@ -18,64 +19,67 @@ class CurrentWeatherVM: ObservableObject {
 
     
     var cityName: String {
-        return self.weather.cityName
+        return self.currentWeather.cityName
     }
     
     var conditionId: String {
-        return WeatherConditionHelper.getImageFromConditionId(conditionId: self.weather.conditionID)
+        return WeatherConditionHelper.getImageFromConditionId(conditionId: self.currentWeather.conditionID)
     }
     
     var currentTempString: String {
-        return String(format: "%.0f", weather.temperature)
+        return String(format: "%.0f", currentWeather.temperature)
     }
     
     var feelsLike: String {
-        return String(format: "%.0f", weather.feelsLike)
+        return String(format: "%.0f", currentWeather.feelsLike)
     }
     
     var humidity: String {
-        return "\(weather.humidity)%"
+        return "\(currentWeather.humidity)%"
     }
     
     var sunriseTime: Date {
-        return weather.sunrise
+        return currentWeather.sunrise
     }
     
     var sunsetTime: Date {
-        return weather.sunset
+        return currentWeather.sunset
     }
     
     var isDaytime: Bool {
-        return weather.currentDT > weather.sunrise && weather.currentDT < weather.sunset
+        return currentWeather.currentDT > currentWeather.sunrise && currentWeather.currentDT < currentWeather.sunset
     }
     
     var wind: String {
-        return "\(weather.windSpeed) mph \(WindHelper.windDirection(weather.windDeg))"
+        return "\(currentWeather.windSpeed) mph \(WindHelper.windDirection(currentWeather.windDeg))"
     }
 
     
     init() {
         cancellableLocation = locationManager.objectWillChange
-            .sink { _ in self.getCurrentWeather() }
+            .sink { _ in
+                self.getCurrentWeather() }
     }
     
     
     func getCurrentWeather() {
-        self.cancellableNetwork = NetworkManager.shared.getWeatherByCity(lat: locationManager.userLatitude,
+        self.cancellableNetwork = NetworkManager.shared.getWeatherByLocation(lat: locationManager.userLatitude,
                                                                          long: locationManager.userLongitude)
-            .sink(receiveCompletion: { _ in },
+            .sink(receiveCompletion: { print ("completion: \($0)") },
                   receiveValue: { weather in
-                    self.weather = WeatherModel(conditionID: weather.weather[0].id,
+                    print (weather)
+                    self.currentWeather = WeatherModel(conditionID: weather.current.weather[0].id,
                                                 cityName: self.locationManager.locationName,
-                                                temperature: weather.main.temp,
-                                                feelsLike: weather.main.feelsLike,
-                                                currentDT: weather.dt,
-                                                humidity: weather.main.humidity,
-                                                sunrise: weather.sys.sunrise,
-                                                sunset: weather.sys.sunset,
-                                                windSpeed: weather.wind.speed,
-                                                windDeg: weather.wind.deg
+                                                temperature: weather.current.temp,
+                                                feelsLike: weather.current.feelsLike,
+                                                currentDT: weather.current.dt,
+                                                humidity: weather.current.humidity,
+                                                sunrise: weather.daily[0].sunrise,
+                                                sunset: weather.daily[0].sunset,
+                                                windSpeed: weather.current.windSpeed,
+                                                windDeg: weather.current.windDeg
                     )
+                    self.currentForecast = weather.daily
                   })
     }
 }

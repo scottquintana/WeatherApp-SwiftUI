@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ForecastDayVM {
-    let dailyForecast: DailyForecastList
+    let dailyForecast: DailyWeather
     
     var dayOfWeek: String {
         return DateHelper.convertToShortDay(dailyForecast.dt)
     }
     
     var conditionId: String {
-        return WeatherConditionHelper.getImageFromConditionId(conditionId: dailyForecast.weather[0].id) 
+        return WeatherConditionHelper.getImageFromConditionId(conditionId: dailyForecast.weather[0].id)
     }
     
     var dailyHighString: String {
