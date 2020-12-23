@@ -19,6 +19,17 @@ class DateHelper {
         return shortDay.string(from: date)
     }
     
+    static var longDay: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMM d"
+        formatter.calendar = Calendar(identifier: .iso8601)
+        return formatter
+    }()
+
+    static func convertToLongDay(_ date: Date) -> String {
+        return longDay.string(from: date)
+    }
+    
     static var timeDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "h:mm a"
