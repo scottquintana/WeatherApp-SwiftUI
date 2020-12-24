@@ -32,7 +32,7 @@ struct WeatherWidgetEntryView: View {
                         .padding(.top, 14)
                     
                     Text(entry.weather.temp + "°")
-                        .font(.system(size: 42, weight: .thin, design: .default))
+                        .font(.system(size: 40, weight: .thin, design: .default))
                         .foregroundColor(.white)
                         .padding()
                     
@@ -58,7 +58,7 @@ struct WeatherWidgetEntryView: View {
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             
-                            VStack(alignment: .leading, spacing: -5.0) {
+                            VStack(alignment: .leading, spacing: -6.0) {
                                 
                                 Text(entry.weather.desc)
                                     .font(.system(size: 14, weight: .thin, design: .rounded))
@@ -109,11 +109,14 @@ struct WeatherWidgetEntryView: View {
                         .opacity(/*@START_MENU_TOKEN@*/0.4/*@END_MENU_TOKEN@*/)
                     
                     HStack{
-                        
+                        ForEach(entry.weather.hourlyForecast.prefix(6), id: \.dt) { hourlyWeather in
+                            HourlyForecastView(hourlyWeather: hourlyWeather)
+                        }
                     }
+                    .padding([.leading, .bottom, .trailing], 10.0)
                 }
+                .padding(.vertical, 10.0)
             }
-            
         }
         
     }

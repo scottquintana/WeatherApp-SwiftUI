@@ -5,7 +5,7 @@
 //  Created by Scott Quintana on 11/10/20.
 //
 
-import SwiftUI
+import Foundation
 
 struct ForecastDayVM {
     let dailyForecast: DailyWeather
