@@ -34,7 +34,8 @@ struct WidgetProvider: TimelineProvider {
                                                    conditionId: weatherData.current.weather[0].id,
                                                    currentDate: weatherData.current.dt,
                                                    desc: weatherData.current.weather[0].main,
-                                                   hourlyForecast: weatherData.hourly)
+                                                   hourlyForecast: weatherData.hourly,
+                                                   isNight: !(weatherData.current.dt > weatherData.current.sunrise && weatherData.current.dt < weatherData.current.sunset))
                 let entry = WeatherEntry(date: currentDate, weather: currentWeather)
                 let timeline = (Timeline(entries: [entry], policy: .after(refreshTime)))
                 completion(timeline)

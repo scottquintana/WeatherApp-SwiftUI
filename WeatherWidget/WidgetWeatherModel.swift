@@ -8,6 +8,7 @@
 import Foundation
 
 struct WidgetWeatherModel {
+
     let city: String?
     let temp: String
     let feelsLike: String
@@ -15,15 +16,18 @@ struct WidgetWeatherModel {
     let currentDate: Date
     let desc: String
     let hourlyForecast: [HourlyWeather]
+    let isNight: Bool
 }
 
 extension WidgetWeatherModel {
     static let previewData = WidgetWeatherModel(
+    
         city: "Any City",
         temp: "66",
         feelsLike: "62",
         conditionId: 800,
         currentDate: Date(),
         desc: "Sunny",
-        hourlyForecast: [])
+        hourlyForecast: [],
+        isNight: false)
 }

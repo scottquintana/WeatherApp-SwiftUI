@@ -18,41 +18,67 @@ struct WeatherEntry: TimelineEntry {
 struct WeatherWidgetEntryView: View {
     @Environment(\.widgetFamily) private var widgetFamily
     
+    @State var isNight = false
+    
     var entry: WidgetProvider.Entry
     
     var body: some View {
         
         if widgetFamily == .systemSmall {
             ZStack {
-                WidgetBackground()
+                WidgetBackground(isNight: $isNight)
+                
                 VStack {
-                    Text(entry.weather.desc)
-                        .font(.system(size: 14, weight: .thin, design: .default))
-                        .foregroundColor(.white)
-                        .padding(.top, 14)
+                    VStack(alignment: .center, spacing: 0.0) {
+                        Text(DateHelper.convertToLongDay(entry.weather.currentDate))
+                            .font(.system(size: 14, weight: .thin, design: .rounded))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                        HStack(spacing: 4.0) {
+                            Image(systemName: "mappin.and.ellipse")
+                                .resizable()
+                                .foregroundColor(.white)
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 10, height: 10)
+                            
+                            Text(entry.weather.city ?? "Location unknown")
+                                .font(.system(size: 14, weight: .thin, design: .default))
+                                .foregroundColor(.white)
+                            
+                            
+                        }
+                        .padding(.trailing)
+                    }
+                    .padding(4.0)
                     
                     Text(entry.weather.temp + "°")
                         .font(.system(size: 40, weight: .thin, design: .default))
                         .foregroundColor(.white)
-                        .padding()
+                       
                     
                     Text("Feels like: \(entry.weather.feelsLike)°")
                         .font(.system(size: 14, weight: .thin, design: .default))
                         .foregroundColor(.white)
-                        .padding()
+                     
+                    Spacer()
                     
                 }
             }
-        } else if widgetFamily == .systemMedium {
+            .onAppear {
+                isNight = entry.weather.isNight
+            }
+        }
+        
+        else if widgetFamily == .systemMedium {
             ZStack {
-                WidgetBackground()
+                WidgetBackground(isNight: $isNight)
                 
                 VStack {
                    
                     HStack {
                         
                         HStack {
-                            Image(systemName: WeatherConditionHelper.getImageFromConditionId(conditionId: entry.weather.conditionId))
+                            Image(systemName: isNight ? "moon.stars.fill" : WeatherConditionHelper.getImageFromConditionId(conditionId: entry.weather.conditionId))
                                 .renderingMode(.original)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
@@ -84,7 +110,7 @@ struct WeatherWidgetEntryView: View {
                                 .multilineTextAlignment(.trailing)
                                 .padding(.trailing)
                             HStack(spacing: 4.0) {
-                                Image(systemName: "location.fill")
+                                Image(systemName: "mappin.and.ellipse")
                                     .resizable()
                                     .foregroundColor(.white)
                                     .aspectRatio(contentMode: .fit)
@@ -117,10 +143,12 @@ struct WeatherWidgetEntryView: View {
                 }
                 .padding(.vertical, 10.0)
             }
+            .onAppear {
+                isNight = entry.weather.isNight
+            }
         }
         
     }
-    
 }
 
 @main
@@ -138,8 +166,10 @@ struct WeatherWidget: Widget {
 }
 
 struct WidgetBackground: View {
+    @Binding var isNight: Bool
+    
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: [.blue, Color("lightBlue")]),
+        LinearGradient(gradient: Gradient(colors: [isNight ? .black : .blue, isNight ? .gray : Color("lightBlue")]),
                        startPoint: .topLeading,
                        endPoint: .bottomTrailing)
             .edgesIgnoringSafeArea(.all)
