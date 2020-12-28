@@ -10,9 +10,8 @@ import SwiftUI
 struct WeatherView: View {
     
     @State var isNight = false
-    
-    @StateObject private var weatherForecastVM = WeatherForecastVM()
-    
+    @StateObject var currentWeatherVM = CurrentWeatherVM()
+
     var body: some View {
         
         ZStack {
@@ -20,7 +19,7 @@ struct WeatherView: View {
             BackgroundView(isNight: $isNight)
             
             VStack {
-                MainWeatherStatusView(isNight: $isNight)
+                MainWeatherStatusView(currentWeatherVM: currentWeatherVM, isNight: $isNight)
                 
                 
                 ZStack{
@@ -31,7 +30,7 @@ struct WeatherView: View {
                         .opacity(0.4)
                         .cornerRadius(26)
                     HStack(spacing: 22) {
-                        ForEach(self.weatherForecastVM.forecast.prefix(5), id: \.dt) { forecastVM in
+                        ForEach(self.currentWeatherVM.currentForecast.prefix(5), id: \.dt) { forecastVM in
                             WeatherForecastView(dailyWeather: forecastVM)
                         }
                     }
@@ -69,7 +68,7 @@ struct BackgroundView: View {
 
 struct MainWeatherStatusView: View {
     
-    @StateObject private var currentWeatherVM = CurrentWeatherVM()
+    var currentWeatherVM: CurrentWeatherVM
     @Binding var isNight: Bool
     
     var body: some View {
@@ -131,7 +130,7 @@ struct WeatherForecastView: View {
     
     private var forecastDayVM: ForecastDayVM
     
-    init(dailyWeather: DailyForecastList) {
+    init(dailyWeather: DailyWeather) {
         self.forecastDayVM = ForecastDayVM(dailyForecast: dailyWeather)
     }
     
