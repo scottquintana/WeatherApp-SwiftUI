@@ -1,3 +1,3 @@
 # WeatherApp-SwiftUI
 
-Simple weather app utilizing SwiftUI, CoreLocation, and Combine.
+Simple weather app utilizing SwiftUI, WidgetKit, CoreLocation, and Combine.
