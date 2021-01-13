@@ -128,9 +128,9 @@ struct MainWeatherStatusView: View {
             }
             .padding(.top, 20)
             
-        }.onAppear {
-            isNight = !(currentWeatherVM.currentTime > currentWeatherVM.sunriseTime && currentWeatherVM.currentTime < currentWeatherVM.sunriseTime)
-        }
+        }.onChange(of: currentWeatherVM.currentTime, perform: { _ in
+            isNight = !currentWeatherVM.isNight
+        })
         .padding(.bottom, 40)
     }
 }
@@ -161,7 +161,7 @@ struct WeatherForecastView: View {
                 .foregroundColor(.white)
             Text(forecastDayVM.dailyLowString + "°")
                 .font(.system(size: 24, weight: .thin, design: .rounded))
-                .foregroundColor(Color(.systemGray))
+                .foregroundColor(Color(.systemGray4))
         }
     }
 }

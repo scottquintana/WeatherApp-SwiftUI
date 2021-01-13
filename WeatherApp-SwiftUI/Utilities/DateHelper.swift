@@ -35,8 +35,18 @@ class DateHelper {
         formatter.dateFormat = "h:mm a"
         return formatter
     }()
+    
+    static var timeDateFormatter24: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HHmm"
+        return formatter
+    }()
 
     static func convertToTimeFormat(_ date: Date) -> String {
         return timeDateFormatter.string(from: date)
+    }
+    
+    static func convertTo24hrTimeFormat(_ date: Date) -> String {
+        return timeDateFormatter24.string(from: date)
     }
 }

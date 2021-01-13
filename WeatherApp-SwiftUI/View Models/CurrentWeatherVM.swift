@@ -57,6 +57,14 @@ class CurrentWeatherVM: ObservableObject {
     var wind: String {
         return "\(currentWeather.windSpeed) mph \(WindHelper.windDirection(currentWeather.windDeg))"
     }
+    
+    var isNight: Bool {
+        let currentTime = currentWeather.currentDT
+        let sunrise = currentWeather.sunrise
+        let sunset = currentWeather.sunset
+        
+        return !(currentTime > sunrise && currentTime < sunset)
+    }
 
     
     init() {
