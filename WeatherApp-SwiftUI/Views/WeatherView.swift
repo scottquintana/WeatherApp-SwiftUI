@@ -44,13 +44,6 @@ struct WeatherView: View {
 }
 
 
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        WeatherView()
-    }
-}
-
-
 struct BackgroundView: View {
     
     @Binding var isNight: Bool
@@ -84,7 +77,9 @@ struct MainWeatherStatusView: View {
                     .foregroundColor(.white)
                     
             }
+            
             Spacer()
+            
             Image(systemName: isNight ? "moon.stars.fill" : currentWeatherVM.conditionId)
                 .renderingMode(.original)
                 .resizable()
@@ -92,6 +87,7 @@ struct MainWeatherStatusView: View {
                 .frame(width: 70, height: 70, alignment: .trailing)
         }
         .padding(.top)
+        
         VStack(spacing: 8) {
 
             
@@ -163,6 +159,13 @@ struct WeatherForecastView: View {
                 .font(.system(size: 24, weight: .thin, design: .rounded))
                 .foregroundColor(Color(.systemGray4))
         }
+    }
+}
+
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        WeatherView()
     }
 }
 
