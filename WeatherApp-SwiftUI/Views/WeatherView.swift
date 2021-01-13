@@ -9,8 +9,9 @@ import SwiftUI
 
 struct WeatherView: View {
     
+    @StateObject private var currentWeatherVM = CurrentWeatherVM()
     @State var isNight = false
-    @StateObject var currentWeatherVM = CurrentWeatherVM()
+    
 
     var body: some View {
         
@@ -19,15 +20,13 @@ struct WeatherView: View {
             BackgroundView(isNight: $isNight)
             
             VStack {
-                MainWeatherStatusView(currentWeatherVM: currentWeatherVM, isNight: $isNight)
-                
-                
+                MainWeatherStatusView(currentWeatherVM: self.currentWeatherVM, isNight: $isNight)
                 ZStack{
                     HStack {
                         Spacer()
                     }
                     Color(.black)
-                        .opacity(0.4)
+                        .opacity(0.1)
                         .cornerRadius(26)
                     HStack(spacing: 22) {
                         ForEach(self.currentWeatherVM.currentForecast.prefix(5), id: \.dt) { forecastVM in
@@ -38,7 +37,7 @@ struct WeatherView: View {
                 Spacer()
             }
             
-            .padding(.horizontal, 30)
+            .padding([.leading, .bottom, .trailing], 30)
             
         }
     }
@@ -68,25 +67,36 @@ struct BackgroundView: View {
 
 struct MainWeatherStatusView: View {
     
-    var currentWeatherVM: CurrentWeatherVM
+    @StateObject var currentWeatherVM: CurrentWeatherVM
     @Binding var isNight: Bool
     
     var body: some View {
-        Text(currentWeatherVM.cityName)
-            .font(.system(size: 32, weight: .medium, design: .default))
-            .foregroundColor(.white)
-            .padding()
-        
-        
-        VStack(spacing: 8) {
+        HStack {
+            VStack(alignment: .leading, spacing: 8.0) {
+                Text(currentWeatherVM.cityName)
+                    .font(.system(size: 32, weight: .thin, design: .rounded))
+                    .foregroundColor(.white)
+                    .lineLimit(2)
+                    
+                    
+                Text(currentWeatherVM.condition)
+                    .font(.system(size: 20, weight: .thin, design: .rounded))
+                    .foregroundColor(.white)
+                    
+            }
+            Spacer()
             Image(systemName: isNight ? "moon.stars.fill" : currentWeatherVM.conditionId)
                 .renderingMode(.original)
                 .resizable()
                 .aspectRatio(contentMode: .fit)
-                .frame(width: 180, height: 180, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                .frame(width: 70, height: 70, alignment: .trailing)
+        }
+        .padding(.top)
+        VStack(spacing: 8) {
+
             
             Text(currentWeatherVM.currentTempString + "°")
-                .font(.system(size: 70, weight: .medium, design: .default))
+                .font(.system(size: 120, weight: .thin, design: .rounded))
                 .foregroundColor(.white)
             VStack(spacing: 8) {
                 HStack(spacing: 22) {
@@ -119,7 +129,7 @@ struct MainWeatherStatusView: View {
             .padding(.top, 20)
             
         }.onAppear {
-            isNight = !currentWeatherVM.isDaytime
+            isNight = !(currentWeatherVM.currentTime > currentWeatherVM.sunriseTime && currentWeatherVM.currentTime < currentWeatherVM.sunriseTime)
         }
         .padding(.bottom, 40)
     }
@@ -139,7 +149,7 @@ struct WeatherForecastView: View {
         
         VStack {
             Text(forecastDayVM.dayOfWeek)
-                .font(.system(size: 18, weight: .medium, design: .default))
+                .font(.system(size: 18, weight: .thin, design: .rounded))
                 .foregroundColor(.white)
             Image(systemName: forecastDayVM.conditionId)
                 .renderingMode(.original)
@@ -147,11 +157,11 @@ struct WeatherForecastView: View {
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 40, height: 40)
             Text(forecastDayVM.dailyHighString + "°")
-                .font(.system(size: 24, weight: .medium, design: .default))
+                .font(.system(size: 24, weight: .thin, design: .rounded))
                 .foregroundColor(.white)
             Text(forecastDayVM.dailyLowString + "°")
-                .font(.system(size: 24, weight: .medium, design: .default))
-                .foregroundColor(.gray)
+                .font(.system(size: 24, weight: .thin, design: .rounded))
+                .foregroundColor(Color(.systemGray))
         }
     }
 }

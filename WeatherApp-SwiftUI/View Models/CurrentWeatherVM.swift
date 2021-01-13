@@ -10,7 +10,7 @@ import Combine
 
 class CurrentWeatherVM: ObservableObject {
     
-    @Published private var currentWeather = WeatherModel.placeholder()
+    @Published var currentWeather = WeatherModel.placeholder()
     var currentForecast = [DailyWeather]()
     @ObservedObject private var locationManager = LocationManager()
     
@@ -26,6 +26,10 @@ class CurrentWeatherVM: ObservableObject {
         return WeatherConditionHelper.getImageFromConditionId(conditionId: self.currentWeather.conditionID)
     }
     
+    var condition: String {
+        return currentWeather.condition
+    }
+    
     var currentTempString: String {
         return String(format: "%.0f", currentWeather.temperature)
     }
@@ -38,6 +42,10 @@ class CurrentWeatherVM: ObservableObject {
         return "\(currentWeather.humidity)%"
     }
     
+    var currentTime: Date {
+        return currentWeather.currentDT
+    }
+    
     var sunriseTime: Date {
         return currentWeather.sunrise
     }
@@ -45,11 +53,7 @@ class CurrentWeatherVM: ObservableObject {
     var sunsetTime: Date {
         return currentWeather.sunset
     }
-    
-    var isDaytime: Bool {
-        return currentWeather.currentDT > currentWeather.sunrise && currentWeather.currentDT < currentWeather.sunset
-    }
-    
+        
     var wind: String {
         return "\(currentWeather.windSpeed) mph \(WindHelper.windDirection(currentWeather.windDeg))"
     }
@@ -58,16 +62,16 @@ class CurrentWeatherVM: ObservableObject {
     init() {
         cancellableLocation = locationManager.objectWillChange
             .sink { _ in
-                self.getCurrentWeather() }
+                self.getCurrentWeather()
+            }
     }
     
     
     func getCurrentWeather() {
         self.cancellableNetwork = NetworkManager.shared.getWeatherByLocation(lat: locationManager.userLatitude,
                                                                          long: locationManager.userLongitude)
-            .sink(receiveCompletion: { print ("completion: \($0)") },
+            .sink(receiveCompletion: { _ in  },
                   receiveValue: { weather in
-                    print (weather)
                     self.currentWeather = WeatherModel(conditionID: weather.current.weather[0].id,
                                                 cityName: self.locationManager.locationName,
                                                 temperature: weather.current.temp,
@@ -77,7 +81,8 @@ class CurrentWeatherVM: ObservableObject {
                                                 sunrise: weather.daily[0].sunrise,
                                                 sunset: weather.daily[0].sunset,
                                                 windSpeed: weather.current.windSpeed,
-                                                windDeg: weather.current.windDeg
+                                                windDeg: weather.current.windDeg,
+                                                condition: weather.current.weather[0].main
                     )
                     self.currentForecast = weather.daily
                   })

@@ -18,7 +18,7 @@ struct WeatherModel {
     let sunset: Date
     let windSpeed: Double
     let windDeg: Double
-    
+    let condition: String
 }
 
 //MARK: - Placeholder Extension
@@ -34,8 +34,8 @@ extension WeatherModel {
                            sunrise: Date(),
                            sunset: Date(),
                            windSpeed: 0,
-                           windDeg: 0
-                           
+                           windDeg: 0,
+                           condition: ""
                            
        )
     }
