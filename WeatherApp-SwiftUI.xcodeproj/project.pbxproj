@@ -24,7 +24,6 @@
 		5E77B1E8255A5A0700716478 /* CurrentWeatherVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E77B1E7255A5A0700716478 /* CurrentWeatherVM.swift */; };
 		5E77B1EC255A5FEA00716478 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E77B1EB255A5FEA00716478 /* WeatherModel.swift */; };
 		5E80FD37255B31C400E4A076 /* WeatherForecastModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E80FD36255B31C400E4A076 /* WeatherForecastModel.swift */; };
-		5E80FD3A255B32C500E4A076 /* WeatherForecastVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E80FD39255B32C500E4A076 /* WeatherForecastVM.swift */; };
 		5E80FD3D255B428A00E4A076 /* ForecastDayVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E80FD3C255B428A00E4A076 /* ForecastDayVM.swift */; };
 		5E80FD41255B651700E4A076 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E80FD40255B651700E4A076 /* DateHelper.swift */; };
 		5E80FD47255BB43000E4A076 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E80FD46255BB43000E4A076 /* LocationManager.swift */; };
@@ -84,7 +83,6 @@
 		5E77B1E7255A5A0700716478 /* CurrentWeatherVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeatherVM.swift; sourceTree = "<group>"; };
 		5E77B1EB255A5FEA00716478 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		5E80FD36255B31C400E4A076 /* WeatherForecastModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastModel.swift; sourceTree = "<group>"; };
-		5E80FD39255B32C500E4A076 /* WeatherForecastVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherForecastVM.swift; sourceTree = "<group>"; };
 		5E80FD3C255B428A00E4A076 /* ForecastDayVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForecastDayVM.swift; sourceTree = "<group>"; };
 		5E80FD40255B651700E4A076 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		5E80FD46255BB43000E4A076 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -186,7 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				5E77B1E7255A5A0700716478 /* CurrentWeatherVM.swift */,
-				5E80FD39255B32C500E4A076 /* WeatherForecastVM.swift */,
 				5E80FD3C255B428A00E4A076 /* ForecastDayVM.swift */,
 			);
 			path = "View Models";
@@ -346,7 +343,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E80FD3A255B32C500E4A076 /* WeatherForecastVM.swift in Sources */,
 				5E77B1E8255A5A0700716478 /* CurrentWeatherVM.swift in Sources */,
 				5EF3005A258889E000DC832F /* DetailText.swift in Sources */,
 				5E80FD3D255B428A00E4A076 /* ForecastDayVM.swift in Sources */,

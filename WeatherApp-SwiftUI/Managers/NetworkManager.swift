@@ -19,7 +19,6 @@ struct NetworkManager {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/onecall?lat=\(lat)&lon=\(long)&appid=\(apiKey)&units=imperial") else {
             fatalError("Error locating city")
         }
-        
         let decodeStrategy = JSONDecoder()
         decodeStrategy.keyDecodingStrategy = .convertFromSnakeCase
         decodeStrategy.dateDecodingStrategy = .secondsSince1970

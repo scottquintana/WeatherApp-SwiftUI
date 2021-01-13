@@ -16,7 +16,7 @@ struct DetailText: View {
     
     var body: some View {
         Text(text)
-            .font(.body)
+            .font(.system(size: 20, weight: .thin, design: .rounded))
             .foregroundColor(.white)
     }
 }
