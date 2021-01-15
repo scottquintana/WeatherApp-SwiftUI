@@ -15,9 +15,6 @@ final class WidgetViewModel {
     var locationName: String?
     
     func getWidgetWeather(userLocation: CLLocation, completion: @escaping (WeatherData) -> Void) {
-        
-        
-        
         getPlace(for: userLocation) { [weak self] placemark in
             guard let self = self else { return }
             guard let placemark = placemark else { return }

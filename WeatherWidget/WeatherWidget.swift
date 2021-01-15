@@ -44,8 +44,6 @@ struct WeatherWidgetEntryView: View {
                             Text(entry.weather.city ?? "Location unknown")
                                 .font(.system(size: 14, weight: .thin, design: .default))
                                 .foregroundColor(.white)
-                            
-                            
                         }
                         .padding(.trailing)
                     }
@@ -74,9 +72,7 @@ struct WeatherWidgetEntryView: View {
                 WidgetBackground(isNight: $isNight)
                 
                 VStack {
-                   
                     HStack {
-                        
                         HStack {
                             Image(systemName: isNight ? "moon.stars.fill" : WeatherConditionHelper.getImageFromConditionId(conditionId: entry.weather.conditionId))
                                 .renderingMode(.original)
@@ -85,7 +81,6 @@ struct WeatherWidgetEntryView: View {
                                 .frame(width: 50, height: 50, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
                             
                             VStack(alignment: .leading, spacing: -6.0) {
-                                
                                 Text(entry.weather.desc)
                                     .font(.system(size: 14, weight: .thin, design: .rounded))
                                     .foregroundColor(.white)
@@ -97,7 +92,6 @@ struct WeatherWidgetEntryView: View {
                                 Text("Feels like: \(entry.weather.feelsLike)°")
                                     .font(.system(size: 12, weight: .thin, design: .rounded))
                                     .foregroundColor(.white)
-                                
                             }
                         }
                         
@@ -119,12 +113,9 @@ struct WeatherWidgetEntryView: View {
                                 Text(entry.weather.city ?? "Location unknown")
                                     .font(.system(size: 14, weight: .thin, design: .default))
                                     .foregroundColor(.white)
-                                
-                                
-                            }
+                           }
                             .padding(.trailing)
                         }
-                        
                     }
                     .padding([.top, .leading], 10.0)
                     

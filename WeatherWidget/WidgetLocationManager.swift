@@ -24,10 +24,10 @@ class WidgetLocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
     
+    
     func fetchLocation(handler: @escaping (CLLocation) -> Void) {
         self.handler = handler
         self.locationManager!.requestLocation()
-        
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {

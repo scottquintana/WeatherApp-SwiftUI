@@ -21,7 +21,6 @@ struct WidgetWeatherModel {
 
 extension WidgetWeatherModel {
     static let previewData = WidgetWeatherModel(
-    
         city: "Any City",
         temp: "66",
         feelsLike: "62",
@@ -29,5 +28,6 @@ extension WidgetWeatherModel {
         currentDate: Date(),
         desc: "Sunny",
         hourlyForecast: [],
-        isNight: false)
+        isNight: false
+    )
 }
